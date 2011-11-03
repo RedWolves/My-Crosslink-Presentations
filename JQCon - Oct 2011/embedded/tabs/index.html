@@ -1,0 +1,327 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/ui-lightness/jquery-ui-1.8.16.custom.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	
+</head>
+<body>
+	<div id="tabs">
+		<ul>
+			<li><a href="#project1">Project 1</a> <span class="ui-icon ui-icon-close">Remove Tab</span></li>
+		</ul>
+	<div id="project1">
+	<div class="accordion">
+	    <div>
+	        <h3><a href="#">Download jQuery UI</a></h3>
+	        <div>
+	            <input type="checkbox" class="completed">
+	            <strong>Download jQuery UI</strong>
+	            <div>
+	                Go to
+	                <a href="http://jqueryui.com/download">
+	                http://jqueryui.com/download</a>
+	                to download jQuery UI.
+	            </div>
+	            <div>
+	                <strong>Date due:</strong> 11/15/2011
+	            </div>
+	       </div>
+	   </div>
+		 <div>
+		                        <h3><a href="#">Build Theme for jQuery UI</a></h3>
+		                        <div>
+		                            <input type="checkbox" class="completed"> <strong>Build Theme for jQuery UI</strong>
+		                            <div>
+		                                Go to <a href="http://jqueryui.com/theme">http://jqueryui.com/theme</a> to build my custom theme.
+		                            </div>
+		                            <div>
+		                                <strong>Date due:</strong> 11/15/2011
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <div>
+		                        <h3><a href="#">Build complex UI with jQuery UI</a></h3>
+		                        <div>
+		                            <input type="checkbox" class="completed"> <strong>Build complex UI with jQuery UI</strong>
+		                            <div>
+		                                Using my newly downloaded jQuery UI and jQuery UI Theme build a complex UI with it.
+		                            </div>
+		                            <div>
+		                                <strong>Date due:</strong> 11/15/2011
+		                            </div>
+		                        </div>
+
+		                    </div>
+	</div>
+	
+	<button class="AddToDo">Add Task</button>
+	</div>
+	
+	
+</div>
+	<div id="AddToDoItem" title="Add To Do Item">
+  	<p>Use the form below to add a to do item to the list.</p>
+    <div><label for="task">Task:</label> <input type="text" id="task"></div>
+    <div><label for="description">Description:</label> <textarea id="description"></textarea></div>
+    <div><label for="duedate">Date due:</label> <input type="text" id="duedate"></div>
+	</div>
+	<script id="ToDoItemTemplate" type="text/x-jquery-tmpl">
+	    <div>
+	        <h3><a href="#">${task}</a></h3>
+	        <div>
+	            <input type="checkbox" class="completed"> <strong>${task}</strong> 
+	            <div>
+	                ${description}
+	            </div>
+	            <div>
+	                <strong>Date due:</strong> ${duedate}
+	            </div>
+	        </div>
+	    </div>
+	</script>
+	<script src="/js/libraries/jquery-1.6.3.min.js"></script>
+	<script src="/js/libraries/jquery-ui-1.8.16.min.js"></script>
+	<script src="/js/libraries/jquery.tmpl.min.js"></script>
+	<script>
+		$("#tabs").tabs({
+
+			// tabTemplate: HTML template from which a new tab is created and added. 
+			//							The placeholders #{href} and #{label} are replaced with the
+			//							url and tab label that are passed as arguments to 
+			//							the add method.
+			tabTemplate: "<li><a href='#{href}'>#{label}</a>\
+									 <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
+
+		});
+		
+		// Setup a function that is easy to reuse.
+		$.fn.setupToDoList = function () {
+			// return the jQuery object so that we can continue chaining
+	    return this
+	      .find(".accordion")
+
+					// call the refreshAccordion method which tearsdown and rebuilds the todo
+					// list as an accordion.
+	  			.refreshAccordion()
+
+					// make the todo list sortable.
+	  			.sortable({
+
+						// constrain movement to the y axis only
+						axis: "y",
+
+						// define which element will be the handle when sorting.
+						handle: "h3",
+
+						// stop: event that handles when the element being sorted has stopped.
+						//       In this instance we are setting the global stop variable which 
+						//       helps determine if the todo item is in movement. 
+						stop: function() {
+							stop = true;
+						},
+
+						// Don't sort elements with class ui-state-disabled.
+						cancel : ".ui-state-disabled"
+					})
+
+					// return the set of matched elements to it's previous state.
+					.end()
+				.find("button")
+
+					// set the element with class 'button' as a button widget.
+				  .button();
+	  };
+	
+		// A reusable plugin used to refresh the accordion.  When this is called the 
+		// accordion will be torn down and setup again. Call this when you add a new 
+		// item to the accordion or on initial setup.
+	  $.fn.refreshAccordion = function () {
+		  // return the jQuery object so that we can continue chaining
+	    return this
+
+					// call the destroy method which tears down the accordion.
+	        .accordion('destroy')
+
+					// set our jQuery object back into an accordion
+	    		.accordion({
+
+						// setting the active option to false allows for no item to be open and active.
+						// The default is that one item is always open.  
+	    			active: false,
+
+						// setting autoHeight to false allows for each item to have a dynamic height.  
+	    			autoHeight: false,
+
+	          // collapsible set to true allows the accordion to have no open items.  
+	    			collapsible : true,
+
+	          // header defines the element of the item that is the header.
+	    			header: "> div > h3"
+	    		})
+
+					// calling the refresh method for sortable allows the new item to be sortable.
+	    		.sortable('refresh');
+	  };
+		
+		$(".accordion").accordion({
+		      active: false,
+		        autoHeight: false,  
+		      collapsible: true,
+		      header: "> div > h3"
+		    }).sortable({
+
+					// constrain movement to the y axis only
+					axis: "y",
+
+					// define which element will be the handle when sorting.
+					handle: "h3",
+
+					// stop: event that handles when the element being sorted has stopped.
+					//       In this instance we are setting the global stop variable which 
+					//       helps determine if the todo item is in movement. 
+					stop: function() {
+						stop = true;
+					},
+
+					// Don't sort elements with class ui-state-disabled.
+					cancel : ".ui-state-disabled"
+				});
+			
+				// accordion to do list
+				// stop is a variable we will use to keep track if any item is moving during a sort.
+				var stop = false;
+
+				// If an item is moving during a sort we want to override the default click 
+				// function of the accordion header to allow the sort to happen unimpeded.
+				$( ".accordion h3" ).click(function( event ) {
+
+					// if the item is moving disable the click event for the accordion widget.
+					if ( stop ) {
+
+						// keeps other handlers from being executed and prevents the event from 
+						// bubbling up the DOM tree.
+						event.stopImmediatePropagation();
+
+						// this will prevent the default action of the event from being triggered.
+						event.preventDefault();
+
+						// reset the stop variable 
+						stop = false;
+					}
+				});	
+		
+		$("#AddToDoItem").dialog({
+
+				    // Set the dialog to be a modal meaning all other elements on the page will be disabled.
+				    modal: true,
+
+				    // Set autoOpen to False as we don't want the dialog opening on page load.
+				    autoOpen: false,
+
+				    // Define the dialogs buttons
+				    buttons: {
+
+				        // Button for adding a to-do item
+				        "Add to do item": function() {
+
+				            //create a JSON object to pass the data from the form to the template.
+				            var newItem = [{
+				                task: $("#task").val(),
+				                description: $("#description").val(),
+				                duedate: $("#duedate").val()}];
+
+				                // select and cache the jQuery Object for the currently visible accordion.
+				                //$accordion = $tabs.find(".ui-tabs-panel:visible .accordion");
+
+				            // Select the template, render it with the JSON data above and append it to 
+				            // the visible accordion.
+				            $("#ToDoItemTemplate").tmpl(newItem).appendTo(".accordion");
+
+				            // Call the refreshAccordion to add the new item to the accordion 
+				            $(".accordion").refreshAccordion();
+
+				            // Close the dialog
+				            $(this).dialog("close");
+
+				            // Clear the fields in the dialog
+				            $("#task, #description, #duedate").val("");
+				        },
+
+				        // Button for cancelling adding a new to-do item
+				        "Cancel": function() {
+
+				            // close the dialog
+				            $(this).dialog("close");
+
+				            // Clear the field in the dialog
+				            $("#task, #description, #duedate").val("");
+				        }
+				    }
+				});
+				
+				$.fn.refreshAccordion = function() {
+				    // return the jQuery object so that we can continue chaining
+				    return this
+
+				    // call the destroy method which tears down the accordion.
+				    .accordion('destroy')
+
+				    // set our jQuery object back into an accordion
+				    .accordion({
+
+				        // setting the active option to false allows for no item to be open and active.
+				        // The default is that one item is always open.  
+				        active: false,
+
+				        // setting autoHeight to false allows for each item to have a dynamic height.  
+				        autoHeight: false,
+
+				        // collapsible set to true allows the accordion to have no open items.  
+				        collapsible: true,
+
+				        // header defines the element of the item that is the header.
+				        header: "> div > h3"
+				    })
+
+				    // calling the refresh method for sortable allows the new item to be sortable.
+				    .sortable('refresh');
+				};
+				
+				$("button").button();
+				$(".AddToDo").live("click", function() {
+
+				    // call our variable that defines our Add To-Do Dialog and 
+				    $("#AddToDoItem").dialog('open');
+				});
+				
+				$("#duedate").datepicker();
+				
+				$("input[type=checkbox]").live("click", function(){
+
+					$(this)
+						// Search up through the DOM tree to find the first instance of the selection.
+						// We are looking for the first parent item with a data attribute of sortable-item.
+						// This data attribute is set from the sortable interaction widget.
+					  .closest(':data(sortable-item)')
+
+							// find the H3 element and trigger a click event to activate and close
+							// the accordion item.
+					    .find('h3').click()
+
+							// return the set of matched elements to it's previous state.
+					    .end()
+
+						// Hide the item we are completing with a sliding motion.  upon completion
+						// of the animation fire the callback function.
+					  .slideUp(function () {
+
+							// remove this todo item from the DOM.
+					    $(this).remove();
+					  });
+				});
+				
+				 $(".ui-tabs-panel").setupToDoList();
+	</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/ui-lightness/jquery-ui-1.8.16.custom.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	
+</head>
+<body>
+	<div class="accordion">
+	    <div>
+	        <h3><a href="#">Download jQuery UI</a></h3>
+	        <div>
+	            <input type="checkbox" class="completed">
+	            <strong>Download jQuery UI</strong>
+	            <div>
+	                Go to
+	                <a href="http://jqueryui.com/download">
+	                http://jqueryui.com/download</a>
+	                to download jQuery UI.
+	            </div>
+	            <div>
+	                <strong>Date due:</strong> 11/15/2011
+	            </div>
+	       </div>
+	   </div>
+		 <div>
+		                        <h3><a href="#">Build Theme for jQuery UI</a></h3>
+		                        <div>
+		                            <input type="checkbox" class="completed"> <strong>Build Theme for jQuery UI</strong>
+		                            <div>
+		                                Go to <a href="http://jqueryui.com/theme">http://jqueryui.com/theme</a> to build my custom theme.
+		                            </div>
+		                            <div>
+		                                <strong>Date due:</strong> 11/15/2011
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <div>
+		                        <h3><a href="#">Build complex UI with jQuery UI</a></h3>
+		                        <div>
+		                            <input type="checkbox" class="completed"> <strong>Build complex UI with jQuery UI</strong>
+		                            <div>
+		                                Using my newly downloaded jQuery UI and jQuery UI Theme build a complex UI with it.
+		                            </div>
+		                            <div>
+		                                <strong>Date due:</strong> 11/15/2011
+		                            </div>
+		                        </div>
+
+		                    </div>
+	</div>
+	<script src="/js/libraries/jquery-1.6.3.min.js"></script>
+	<script src="/js/libraries/jquery-ui-1.8.16.min.js"></script>
+	<script>
+		$(".accordion").accordion({
+		      active: false,
+		        autoHeight: false,  
+		      collapsible: true,
+		      header: "> div > h3"
+		    });
+	</script>
+</body>
+</html>
